@@ -5,22 +5,23 @@ from cell import Cell
 
 
 class MazeView(QtWidgets.QGraphicsView):
-    WIDTH = 600
-    HEIGHT = 600
+    WIDTH = 800
+    HEIGHT = 800
 
     def __init__(self, w, h, parent=None):
         super().__init__(parent)
         self.scene = QtWidgets.QGraphicsScene(self)
         self.setScene(self.scene)
-        self.setFixedSize(self.WIDTH, self.HEIGHT)
+        self.setFixedSize(self.WIDTH + 100, self.HEIGHT + 100)
         self.setSceneRect(0, 0, self.WIDTH, self.HEIGHT)
-        self.fitInView(0, 0, self.WIDTH, self.HEIGHT, Qt.KeepAspectRatio)
+        # self.fitInView(0, 0, self.WIDTH, self.HEIGHT, Qt.KeepAspectRatio)
         self.w = w
         self.h = h
         self.cell_size = self.WIDTH / self.w
         self.maze_cell = self.gen_cells()
 
     def gen_maze(self, w, h):
+        self.scene.clear()
         self.w = w
         self.h = h
         self.cell_size = self.WIDTH / self.w
@@ -32,8 +33,7 @@ class MazeView(QtWidgets.QGraphicsView):
         for i in range(self.w):
             cell_items.append([])
             for j in range(self.h):
-                pos = (i * self.cell_size, j * self.cell_size)
-                cell = CellItem(pos, self.cell_size, cells[i][j])
+                cell = CellItem(i, j, self.cell_size, cells[i][j])
                 cell_items[i].append(cell)
                 self.scene.addItem(cell)
 
@@ -56,21 +56,20 @@ class CellItem(QtWidgets.QGraphicsItem):
         Cell.END: Qt.white,
     }
 
-    def __init__(self, pos, size, cell=Cell.PATH, parent=None):
+    def __init__(self, row, col, size, cell=Cell.PATH, parent=None):
         super().__init__(parent)
-        self.setPos(pos[0], pos[1])
+        self.setPos(col * size, row * size)
+        self.row = row
+        self.col = col
         self.size = size
         self.cell = cell
-        self.text = None
+        self.value = util.INIT_VAL_MAP[self.cell]
 
     def boundingRect(self):
         return QtCore.QRectF(0, 0, self.size, self.size)
 
-    def set_text(self, text):
-        self.text = str(text)
-
-    def clear_text(self):
-        self.text = None
+    def set_value(self, value: float):
+        self.value = value
 
     def paint(self, painter, style_option_graphics_item, widget=None):
         painter.fillRect(self.boundingRect(), self.block_color_map[self.cell])
@@ -79,11 +78,10 @@ class CellItem(QtWidgets.QGraphicsItem):
         painter.setPen(QtGui.QPen(Qt.black))
         painter.drawRect(self.boundingRect())
 
-        if self.text:
-            font = QtGui.QFont()
-            font.setPointSize(15)
-            painter.setPen(QtGui.QPen(self.pen_color_map[self.cell]))
-            painter.setFont(font)
-            painter.drawText(
-                self.boundingRect(), Qt.AlignHCenter | Qt.AlignVCenter, self.text,
-            )
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        painter.setPen(QtGui.QPen(self.pen_color_map[self.cell]))
+        painter.setFont(font)
+        painter.drawText(
+            self.boundingRect(), Qt.AlignHCenter | Qt.AlignVCenter, "{:.2f}".format(self.value),
+        )

@@ -1,4 +1,6 @@
-class Cell:
+from enum import Enum
+
+class Cell(Enum):
     PATH = 0
     BLOCK = 1
     TRAP = 2

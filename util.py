@@ -8,6 +8,22 @@ DIFFICULTY_MAP = {
     "Hard": (25, 25),
 }
 
+REWARDS_MAP = {
+    Cell.PATH: -0.04,
+    Cell.BLOCK: -0.75,
+    Cell.TRAP: -1,
+    Cell.START: -0.04,
+    Cell.END: 1,
+}
+
+INIT_VAL_MAP = {
+    Cell.PATH: 0,
+    Cell.BLOCK: 0,
+    Cell.TRAP: -1,
+    Cell.START: 0,
+    Cell.END: 1,
+}
+
 
 def gen_maze_reachable(w, h):
 
@@ -34,7 +50,7 @@ def gen_maze_reachable(w, h):
 
     path = choose_random_path(w, h)
     maze = [
-        [random.randint(0, 2) if (i, j) not in path else 0 for j in range(h)]
+        [Cell(random.randint(0, 2)) if (i, j) not in path else Cell(0) for j in range(h)]
         for i in range(w)
     ]
     maze[0][0] = Cell.START
