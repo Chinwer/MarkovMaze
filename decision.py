@@ -27,7 +27,7 @@ class MarkovDecision:
         [ (-1, 1),  (0, 1),  (1, 1)  ], # right-up, right, right-down
     ]
 
-    gamma = 0.9
+    gamma = 0.95
 
     def __init__(self, cells, rows, cols):
         self.cells = cells
@@ -40,22 +40,18 @@ class MarkovDecision:
         self.cols = cols
 
     def iter(self):
-        # print()
         for i in range(self.rows):
             for j in range(self.cols):
                 cur_cell = self.cells[i][j]
-                # print("{:.2f}".format(cur_cell.value), end=" ")
                 if cur_cell.cell == Cell.TRAP or \
-                   cur_cell.cell == Cell.END:
+                   cur_cell.cell == Cell.END or \
+                   cur_cell.cell == Cell.BLOCK:
                     continue
                 new_val = float("-inf")
                 for drct in Direction:
                     res = self.move(cur_cell, drct)
-                    print(drct.name, res, end=" ")
                     new_val = max(new_val, res)
-                print()
                 cur_cell.set_value(new_val)
-            # print()
 
     def move(self, cell, drct: Direction):
         res = 0

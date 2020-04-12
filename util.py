@@ -18,7 +18,7 @@ REWARDS_MAP = {
 
 INIT_VAL_MAP = {
     Cell.PATH: 0,
-    Cell.BLOCK: 0,
+    Cell.BLOCK: -0.75,
     Cell.TRAP: -1,
     Cell.START: 0,
     Cell.END: 1,
