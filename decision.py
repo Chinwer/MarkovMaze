@@ -33,11 +33,13 @@ class MarkovDecision:
         self.cells = cells
         self.rows = rows
         self.cols = cols
+        self.iter_count = 1
 
     def refresh_cells(self, cells, rows, cols):
         self.cells = cells
         self.rows = rows
         self.cols = cols
+        self.iter_count = 1
 
     def iter(self):
         # print()
@@ -56,6 +58,7 @@ class MarkovDecision:
                 print()
                 cur_cell.set_value(new_val)
             # print()
+        self.iter_count += 1
 
     def move(self, cell, drct: Direction):
         res = 0

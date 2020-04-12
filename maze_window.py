@@ -21,6 +21,7 @@ class MazeWindow(QtWidgets.QWidget):
         self.decision.refresh_cells(
             self.maze_view.maze_cell, w, h
         )
+        self.l_iter.setText(f"N = {self.decision.iter_count}")
 
     def solve(self):
         # print()
@@ -30,3 +31,4 @@ class MazeWindow(QtWidgets.QWidget):
         #     print()
         self.decision.iter()
         self.maze_view.scene.update()
+        self.l_iter.setText(f"N = {self.decision.iter_count}")
