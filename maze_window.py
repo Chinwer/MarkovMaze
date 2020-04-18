@@ -1,5 +1,6 @@
 import util
 from PyQt5 import uic, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 from maze_view import MazeView
 from decision import MarkovDecision
@@ -24,14 +25,16 @@ class MazeWindow(QtWidgets.QWidget):
         self.l_iter.setText(f"N = {self.decision.iter_count}")
 
     def solve(self):
-        # print()
-        # for rows in self.maze_view.maze_cell:
-        #     for r in rows:
-        #         print("{:.2f}".format(r.value), end=" ")
-        #     print()
         self.decision.iter()
         self.maze_view.scene.update()
         self.l_iter.setText(f"N = {self.decision.iter_count}")
 
-    def show(self):
-        pass
+    def information(self, title, msg):
+        QMessageBox.information(self, title, msg, QMessageBox.Ok)
+
+    def walk(self):
+        path = self.decision.walk()
+        if len(path) == 0:
+            self.information("Information", "Cannot find a valid path!")
+        else:
+            self.maze_view.show_path(path)

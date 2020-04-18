@@ -1,6 +1,7 @@
 import util
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QPoint
 from cell import Cell
 
 
@@ -39,6 +40,11 @@ class MazeView(QtWidgets.QGraphicsView):
 
         return cell_items
 
+    def show_path(self, path):
+        for (r, c) in path:
+            self.maze_cell[r][c].in_path = True
+        self.scene.update()
+
 
 class CellItem(QtWidgets.QGraphicsItem):
     block_color_map = {
@@ -64,6 +70,7 @@ class CellItem(QtWidgets.QGraphicsItem):
         self.size = size
         self.cell = cell
         self.value = util.INIT_VAL_MAP[self.cell]
+        self.in_path = False
 
     def boundingRect(self):
         return QtCore.QRectF(0, 0, self.size, self.size)
@@ -83,5 +90,11 @@ class CellItem(QtWidgets.QGraphicsItem):
         painter.setPen(QtGui.QPen(self.pen_color_map[self.cell]))
         painter.setFont(font)
         painter.drawText(
-            self.boundingRect(), Qt.AlignHCenter | Qt.AlignVCenter, "{:.2f}".format(self.value),
+            self.boundingRect(), Qt.AlignHCenter | Qt.AlignVCenter, "{:.2f}".format(
+                self.value),
         )
+        if self.in_path:
+            painter.setPen(QtGui.QPen(Qt.yellow))
+            x = self.pos().x() + self.size / 2
+            y = self.pos().y() + self.size / 2
+            painter.drawEllipse(QPoint(x, y), self.size / 4, self.size / 4)

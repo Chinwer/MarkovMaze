@@ -141,7 +141,7 @@
    <sender>b_show</sender>
    <signal>clicked()</signal>
    <receiver>MazeView</receiver>
-   <slot>show()</slot>
+   <slot>walk()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>571</x>
@@ -157,6 +157,6 @@
  <slots>
   <slot>gen_maze()</slot>
   <slot>solve()</slot>
-  <slot>show()</slot>
+  <slot>walk()</slot>
  </slots>
 </ui>
