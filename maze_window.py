@@ -32,3 +32,6 @@ class MazeWindow(QtWidgets.QWidget):
         self.decision.iter()
         self.maze_view.scene.update()
         self.l_iter.setText(f"N = {self.decision.iter_count}")
+
+    def show(self):
+        pass

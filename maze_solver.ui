@@ -55,11 +55,6 @@
          </item>
          <item>
           <property name="text">
-           <string>Medium</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
            <string>Hard</string>
           </property>
          </item>
@@ -76,6 +71,13 @@
         <widget class="QPushButton" name="b_solve">
          <property name="text">
           <string>Solve</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="b_show">
+         <property name="text">
+          <string>Show</string>
          </property>
         </widget>
        </item>
@@ -135,9 +137,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>b_show</sender>
+   <signal>clicked()</signal>
+   <receiver>MazeView</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>571</x>
+     <y>172</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>338</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>gen_maze()</slot>
   <slot>solve()</slot>
+  <slot>show()</slot>
  </slots>
 </ui>

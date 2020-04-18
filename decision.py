@@ -43,8 +43,8 @@ class MarkovDecision:
         self.iter_count = 1
 
     def iter(self):
-        for i in range(self.rows):
-            for j in range(self.cols):
+        for i in range(self.rows - 1, -1, -1):
+            for j in range(self.cols - 1, -1, -1):
                 cur_cell = self.cells[i][j]
                 if (
                     cur_cell.cell == Cell.TRAP
@@ -79,15 +79,6 @@ class MarkovDecision:
                 continue
 
             dest_cell = self.cells[new_row][new_col]
-            # When moving towards obstacle,
-            # the agent moves back to where it was before
-            # if dest_cell.cell == Cell.BLOCK:
-            #     dest_cell = cell
-            # When moving towards trap cell,
-            # the agent moves back to the start cell
-            # elif dest_cell.cell == Cell.TRAP:
-            #     dest_cell = self.cells[0][0]
-
             value = dest_cell.value
             if dest_cell.cell == Cell.BLOCK:
                 value = cell.value
