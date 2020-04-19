@@ -85,16 +85,20 @@ class CellItem(QtWidgets.QGraphicsItem):
         painter.setPen(QtGui.QPen(Qt.black))
         painter.drawRect(self.boundingRect())
 
+        if self.in_path:
+            color = QtGui.QColor("#f5b971")
+            painter.setPen(QtGui.QPen(color))
+            painter.setBrush(QtGui.QBrush(color))
+            x = self.size / 2
+            y = self.size / 2
+            painter.drawEllipse(QPoint(x, y), self.size / 6, self.size / 6)
+
         font = QtGui.QFont()
         font.setPointSize(10)
         painter.setPen(QtGui.QPen(self.pen_color_map[self.cell]))
         painter.setFont(font)
         painter.drawText(
-            self.boundingRect(), Qt.AlignHCenter | Qt.AlignVCenter, "{:.2f}".format(
-                self.value),
+            self.boundingRect(),
+            Qt.AlignHCenter | Qt.AlignVCenter,
+            "{:.2f}".format(self.value),
         )
-        if self.in_path:
-            painter.setPen(QtGui.QPen(Qt.yellow))
-            x = self.pos().x() + self.size / 2
-            y = self.pos().y() + self.size / 2
-            painter.drawEllipse(QPoint(x, y), self.size / 4, self.size / 4)

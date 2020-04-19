@@ -45,8 +45,8 @@ class MarkovDecision:
         self.iter_count = 1
 
     def iter(self):
-        for i in range(self.rows - 1, -1, -1):
-            for j in range(self.cols - 1, -1, -1):
+        for i in range(0, self.rows):
+            for j in range(0, self.cols):
                 cur_cell = self.cells[i][j]
                 if (
                     cur_cell.cell == Cell.TRAP
@@ -77,7 +77,7 @@ class MarkovDecision:
                 or new_col < 0
                 or new_col >= self.cols
             ):
-                res += prob * (-0.5 + self.gamma * cell.value)
+                res += prob * (-0.3 + self.gamma * cell.value)
                 continue
 
             dest_cell = self.cells[new_row][new_col]
@@ -89,8 +89,7 @@ class MarkovDecision:
             elif dest_cell.cell == Cell.END:
                 value = 0
 
-            res += prob * \
-                (util.REWARDS_MAP[dest_cell.cell] + self.gamma * value)
+            res += prob * (util.REWARDS_MAP[dest_cell.cell] + self.gamma * value)
 
         return res
 
@@ -112,22 +111,20 @@ class MarkovDecision:
         return res
 
     def is_out_of_bound(self, row, col):
-        return (row < 0 or col < 0
-                or row >= self.rows or col >= self.cols)
+        return row < 0 or col < 0 or row >= self.rows or col >= self.cols
 
     def next_step(self, cur_pos):
         res = (-1, -1)
         max_val = -9999
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                row = cur_pos[0] + i
-                col = cur_pos[1] + j
-                if self.is_out_of_bound(row, col):
-                    continue
-                cell = self.cells[row][col]
-                if cell.cell == Cell.BLOCK or cell.cell == Cell.TRAP:
-                    continue
-                if cell.value > max_val:
-                    max_val = cell.value
-                    res = (row, col)
+        for i, j in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            row = cur_pos[0] + i
+            col = cur_pos[1] + j
+            if self.is_out_of_bound(row, col):
+                continue
+            cell = self.cells[row][col]
+            if cell.cell == Cell.BLOCK or cell.cell == Cell.TRAP:
+                continue
+            if cell.value > max_val:
+                max_val = cell.value
+                res = (row, col)
         return res
