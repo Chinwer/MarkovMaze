@@ -7,17 +7,24 @@ from decision import MarkovDecision
 
 
 class MazeWindow(QtWidgets.QWidget):
+    strategy = ["Markov Decision Process", "Q-learning"]
+
     def __init__(self, parent=None):
         super().__init__(parent)
         uic.loadUi("maze_solver.ui", self)
         self.maze_view = MazeView(4, 4)
         self.vert_layout.addWidget(self.maze_view)
-        self.decision = MarkovDecision(self.maze_view.maze_cell, 4, 4)
+        self.decision = MarkovDecision(
+            self.maze_view.maze_cell, 4, 4, MarkovDecision.MDP
+        )
 
     def gen_maze(self):
         (w, h) = util.DIFFICULTY_MAP[self.b_difficulty.currentText()]
         self.maze_view.gen_maze(w, h)
-        self.decision.refresh_cells(self.maze_view.maze_cell, w, h)
+        self.decision.refresh_cells(
+            self.maze_view.maze_cell, w, h, self.b_strategy.currentIndex()
+        )
+        self.l_strategy.setText(self.strategy[self.b_strategy.currentIndex()])
         self.l_iter.setText(f"N = {self.decision.iter_count}")
 
     def solve(self):
