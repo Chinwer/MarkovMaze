@@ -3,21 +3,21 @@ from cell import Cell
 
 
 DIFFICULTY_MAP = {
-    "Easy": (5, 5),
-    "Hard": (15, 15),
+    "Easy": (4, 4),
+    "Hard": (6, 6),
 }
 
 REWARDS_MAP = {
-    Cell.PATH: -0.1,
-    Cell.BLOCK: -0.5,
+    Cell.PATH: -0.001,
+    Cell.BLOCK: -0.3,
     Cell.TRAP: -1,
-    Cell.START: -0.1,
+    Cell.START: -0.001,
     Cell.END: 1,
 }
 
 INIT_VAL_MAP = {
     Cell.PATH: 0,
-    Cell.BLOCK: -0.5,
+    Cell.BLOCK: -0.3,
     Cell.TRAP: -1,
     Cell.START: 0,
     Cell.END: 1,
