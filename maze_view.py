@@ -79,6 +79,7 @@ class CellItem(QtWidgets.QGraphicsItem):
         self.value = value
 
     def paint(self, painter, style_option_graphics_item, widget=None):
+        painter.setRenderHint(QtGui.QPainter.Antialiasing)
         painter.fillRect(self.boundingRect(), self.block_color_map[self.cell])
 
         # draw border

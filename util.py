@@ -4,6 +4,7 @@ from cell import Cell
 
 DIFFICULTY_MAP = {
     "Easy": (4, 4),
+    "Medium": (5, 5),
     "Hard": (6, 6),
 }
 
