@@ -31,24 +31,18 @@ class MarkovDecision:
     ]
 
     gamma = 0.8
-    alpha = 0.5
 
-    MDP = 0
-    QLearning = 1
-
-    def __init__(self, cells, rows, cols, strategy):
+    def __init__(self, cells, rows, cols):
         self.cells = cells
         self.rows = rows
         self.cols = cols
         self.iter_count = 1
-        self.strategy = strategy
 
-    def refresh_cells(self, cells, rows, cols, strategy):
+    def refresh_cells(self, cells, rows, cols):
         self.cells = cells
         self.rows = rows
         self.cols = cols
         self.iter_count = 1
-        self.strategy = strategy
 
     def iter(self):
         for i in range(0, self.rows):
@@ -64,11 +58,7 @@ class MarkovDecision:
                 for drct in Direction:
                     res = self.move(cur_cell, drct)
                     new_val = max(new_val, res)
-                if self.strategy == self.MDP:
-                    cur_cell.set_value(new_val)
-                elif self.strategy == self.QLearning:
-                    old_val = cur_cell.value
-                    cur_cell.set_value(old_val + self.alpha * (new_val - old_val))
+                cur_cell.set_value(new_val)
         self.iter_count += 1
 
     def move(self, cell, drct: Direction):
